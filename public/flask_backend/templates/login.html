@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <!-- Header -->
+        <div class="auth-header">
+            <div class="logo" style="justify-content: center; margin-bottom: 16px;">
+                <div class="logo-icon">💧</div>
+                <div class="logo-text">
+                    <span class="logo-title">Maji Flow</span>
+                    <span class="logo-sub">Smart Water Management</span>
+                </div>
+            </div>
+            <h1>Welcome Back</h1>
+            <p>Sign in to your Maji Flow account</p>
+        </div>
+
+        <!-- Quick fill demo buttons -->
+        <div class="demo-btns">
+            <button type="button" class="demo-btn resident" onclick="fillDemo('resident')">
+                Use Resident Demo
+            </button>
+            <button type="button" class="demo-btn utility" onclick="fillDemo('utility')">
+                Use Utility Demo
+            </button>
+        </div>
+
+        <!-- Login Form: POST /login -->
+        <form method="POST" action="{{ url_for('login') }}" class="auth-form" id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrap">
+                    <span class="input-icon">✉️</span>
+                    <input type="email" id="email" name="email" required
+                           placeholder="your@email.com"
+                           class="input-field" autocomplete="email">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrap">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="password" name="password" required
+                           placeholder="Enter your password"
+                           class="input-field" autocomplete="current-password">
+                    <button type="button" class="toggle-pw" onclick="togglePassword('password')">
+                        👁️
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary btn-full" id="submitBtn">
+                Sign In
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Don't have an account?
+            <a href="{{ url_for('register') }}">Register here</a>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    // Fill demo credentials
+    function fillDemo(type) {
+        if (type === 'resident') {
+            document.getElementById('email').value = 'resident@majiflow.co.zm';
+            document.getElementById('password').value = 'water123';
+        } else {
+            document.getElementById('email').value = 'utility@lwsc.co.zm';
+            document.getElementById('password').value = 'lwsc2026';
+        }
+    }
+
+    // Toggle password visibility
+    function togglePassword(fieldId) {
+        const field = document.getElementById(fieldId);
+        field.type = field.type === 'password' ? 'text' : 'password';
+    }
+
+    // Show loading on submit
+    document.getElementById('loginForm').addEventListener('submit', function() {
+        const btn = document.getElementById('submitBtn');
+        btn.textContent = 'Signing in...';
+        btn.disabled = true;
+    });
+</script>
+{% endblock %}
+{% endblock %}
